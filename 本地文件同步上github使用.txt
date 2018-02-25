@@ -1,0 +1,6 @@
+1、git init 
+2、git add .
+3、git commit -m "注释描述"
+#这一步非常重要将本地文件同步到github上
+4、git remote add origin https://"你在github上创建的URL"
+5、git push -u origin master
