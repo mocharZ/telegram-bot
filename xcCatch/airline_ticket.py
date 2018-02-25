@@ -58,7 +58,7 @@ def doit():
     DCity1 = stations[arguments['from']]
     ACity1 = stations[arguments['to']]
     DDate1 = arguments['date']
-    url = ("http://flights.ctrip.com/domesticsearch/search/SearchFirstRouteFlights?DCity1={}&ACity1={}&SearchType=S&DDate1={}&IsNearAirportRecommond=0&LogToken=0dc7fd99662349069c123f0a8bfcae95&rk=7.387068566272421154925&CK=51BF6E070FF329F1DDD90CEF097B4B86&r=0.5811166470511521823610").format(DCity1,ACity1,DDate1)
+    url = ("https://flights.ctrip.com/domesticsearch/search/SearchFirstRouteFlights?DCity1={}&ACity1={}&SearchType=S&DDate1={}&IsNearAirportRecommond=0&LogToken=0dc7fd99662349069c123f0a8bfcae95&rk=7.387068566272421154925&CK=51BF6E070FF329F1DDD90CEF097B4B86&r=0.5811166470511521823610").format(DCity1,ACity1,DDate1)
     try:
         r = requests.get(url,headers = headers,verify=False)
     except:
