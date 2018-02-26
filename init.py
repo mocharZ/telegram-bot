@@ -13,28 +13,44 @@ from mwt import MWT
 # class InitData :
 
 
-@MWT()
-def z(a,b):
-    return a + b
+# @MWT()
+# def z(a,b):
+#     return a + b
 
-@MWT(timeout=5)
-def x(a,b):
-    return a + b
+# @MWT(timeout=5)
+# def x(a,b):
+#     return a + b
 
-z(1,2)
-x(1,3)
+# z(1,2)
+# x(1,3)
 
-print (MWT()._caches)
+# print (MWT()._caches)
 #>>> {<function 'z'>: {(1, 2): (3, 1099276281.092)},<function 'x'> : {(1, 3): (4, 1099276281.092)}}
 
-time.sleep(3)
-MWT().collect()
-print (MWT()._caches)
+# time.sleep(3)
+# MWT().collect()
+# print (MWT()._caches)
 #>>> {<function 'z'>: {},<function 'x'> : {(1, 3): (4, 1099276281.092)}}
 
+args = {'message_id': 682, 
+        'date': 1519638094, 
+        'chat': {'id': 356974645, 'type': 'private', 'username': 'Joey_Zhang', 'first_name': 'Joey', 'last_name': 'Zhang'}, 
+        'text': '/balance joey', 
+        'entities': [{'type': 'bot_command', 'offset': 0, 'length': 8}], 
+        'caption_entities': [], 
+        'photo': [], 
+        'new_chat_members': [], 
+        'new_chat_photo': [], 
+        'delete_chat_photo': False, 
+        'group_chat_created': False, 
+        'supergroup_chat_created': False, 
+        'channel_chat_created': False, 
+        'from': {'id': 356974645, 'first_name': 'Joey', 'is_bot': False, 'last_name': 'Zhang', 'username': 'Joey_Zhang', 'language_code': 'zh-CN'},
+        'new_chat_member': None}
 
-
-
+# for key in sorted(args.keys)：
+#     if key == 'id':
+#         print(args[key])
 
 
 

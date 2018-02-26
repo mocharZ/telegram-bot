@@ -6,11 +6,9 @@ import telegram
 import sys
 import os
 from telegram.ext import Updater
-
+import logging
+import logging.config
 def error_callback(bot, updates, error):
-  
-    chat_id = updates.message.chat_id
-    print(chat_id)
     try:
         raise error
     except Unauthorized:
@@ -21,8 +19,7 @@ def error_callback(bot, updates, error):
         updates.message.reply_text("等一会等一会~奶爸有点忙！")
     except NetworkError:
         updates.message.reply_text("奶爸不在工作岗位~")
-    except ChatMigrated as e:
+    except ChatMigrated :
         updates.message.reply_text("聊天已迁移")
-        chat_id = e.new_chat_id
     except TelegramError:
         updates.message.reply_text("纸飞机崩啦！")

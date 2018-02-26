@@ -1,0 +1,788 @@
+Monday, 02/26/18 February 2018 17:41:40 - root - ERROR - {'message_id': 682, 'date': 1519638094, 'chat': {'id': 356974645, 'type': 'private', 'username': 'Joey_Zhang', 'first_name': 'Joey', 'last_name': 'Zhang'}, 'text': '/balance joey', 'entities': [{'type': 'bot_command', 'offset': 0, 'length': 8}], 'caption_entities': [], 'photo': [], 'new_chat_members': [], 'new_chat_photo': [], 'delete_chat_photo': False, 'group_chat_created': False, 'supergroup_chat_created': False, 'channel_chat_created': False, 'from': {'id': 356974645, 'first_name': 'Joey', 'is_bot': False, 'last_name': 'Zhang', 'username': 'Joey_Zhang', 'language_code': 'zh-CN'}, 'new_chat_member': None}
+Monday, 02/26/18 February 2018 17:41:40 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while processing the update
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 279, in process_update
+    handler.handle_update(update, self)
+  File "D:\Python\lib\site-packages\telegram\ext\commandhandler.py", line 171, in handle_update
+    return self.callback(dispatcher.bot, update, **optional_args)
+  File "d:\gitProject\telegram-bot\myFilter.py", line 12, in rateLimitedFunction
+    ret = func(*args,**kargs)
+  File "d:\gitProject\telegram-bot\main.py", line 40, in wrapped
+    return func(bot, updates, *args, **kwargs)
+  File "d:\gitProject\telegram-bot\main.py", line 151, in balance
+    bot.send_message(chat_id=chat_id, text=updates.message)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 85, in decorator
+    result = self._request.post(url, data, timeout=kwargs.get('timeout'))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 266, in post
+    data = json.dumps(data)
+  File "D:\Python\lib\json\__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "D:\Python\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "D:\Python\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "D:\Python\lib\json\encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'Message' is not JSON serializable
+Monday, 02/26/18 February 2018 17:41:57 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 17:41:57 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 17:43:03 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 17:43:03 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 17:43:17 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 17:43:17 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 17:45:26 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 17:45:26 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 17:47:55 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 17:47:55 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 17:53:35 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 17:53:35 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 17:57:57 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 17:57:57 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 18:01:27 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 18:01:27 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 18:03:56 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 18:03:56 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'
+Monday, 02/26/18 February 2018 18:06:35 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Monday, 02/26/18 February 2018 18:06:35 - telegram.ext.dispatcher - ERROR - An uncaught error was raised while handling the error
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 402, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 398, in _make_request
+    httplib_response = conn.getresponse()
+  File "D:\Python\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "D:\Python\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "D:\Python\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "D:\Python\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "D:\Python\lib\ssl.py", line 1002, in recv_into
+    return self.read(nbytes, buffer)
+  File "D:\Python\lib\ssl.py", line 865, in read
+    return self._sslobj.read(len, buffer)
+  File "D:\Python\lib\ssl.py", line 625, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 190, in _request_wrapper
+    resp = self._con_pool.request(*args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 70, in request
+    **urlopen_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\request.py", line 148, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\poolmanager.py", line 244, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 666, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\util\retry.py", line 347, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 617, in urlopen
+    chunked=chunked)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 405, in _make_request
+    exc_cls=ReadTimeoutError)
+  File "D:\Python\lib\site-packages\telegram\vendor\ptb_urllib3\urllib3\connectionpool.py", line 321, in _raise_timeout
+    raise exc_cls(*args)
+telegram.vendor.ptb_urllib3.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=12.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\gitProject\telegram-bot\exception.py", line 13, in error_callback
+    raise error
+  File "D:\Python\lib\site-packages\telegram\ext\updater.py", line 286, in _start_polling
+    allowed_updates=allowed_updates)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 60, in decorator
+    result = func(self, *args, **kwargs)
+  File "D:\Python\lib\site-packages\telegram\bot.py", line 1720, in get_updates
+    result = self._request.post(url, data, timeout=float(read_latency) + float(timeout))
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 272, in post
+    **urlopen_kwargs)
+  File "D:\Python\lib\site-packages\telegram\utils\request.py", line 192, in _request_wrapper
+    raise TimedOut()
+telegram.error.TimedOut: Timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 271, in process_update
+    self.dispatch_error(None, update)
+  File "D:\Python\lib\site-packages\telegram\ext\dispatcher.py", line 384, in dispatch_error
+    callback(self.bot, update, error)
+  File "d:\gitProject\telegram-bot\exception.py", line 19, in error_callback
+    updates.message.reply_text("等一会等一会~奶爸有点忙！")
+AttributeError: 'NoneType' object has no attribute 'message'

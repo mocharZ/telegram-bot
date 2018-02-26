@@ -15,7 +15,10 @@ import datasource
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+                    level=logging.INFO,
+                    datefmt="%A, %D %B %Y %H:%M:%S",
+                    filename='log/myBot.log',
+                    filemode='w')
 #初始数据
 bot = telegram.Bot(token="508830944:AAGdJMj2B8BSJ7tlV0oisa4ty2_9dMI386k")
 updates = bot.get_updates()
@@ -58,7 +61,7 @@ def star(bot,updates):
     #     bot.send_message(chat_id=chat_id, text="频率没问题 ")
     # else:
     #     bot.send_message(chat_id=chat_id, text="太快了宝贝")
-    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！奶爸奶你一口\n/menu 早餐菜单\n /service 其他服务\n/order (点餐)\n点餐格式：/order 油条 鸡蛋")
+    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！奶爸奶你一口\n/menu - 早餐菜单\n /service - 其他服务\n/order - 点餐\n点餐格式：/order 油条 鸡蛋\n例子:/order 油条 鸡蛋 豆浆\n/orderList 订单信息\n/balance - 余额")
     
     # bot.send_photo(chat_id=chat_id, photo='https://cache8.shzunliansy.com/app/telegram/breakfast.jpg')
 
@@ -141,16 +144,18 @@ dispatcher.add_handler(order_handler)
 #余额命令
 @RateLimited(1)
 @restricted
-def balance(bot,updates, args):
+def balance(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
-    # datas=datasource.getBalanceByUserName(args[0])
+    logging.error(updates.message)
+    bot.send_message(chat_id=chat_id, text=updates.message)
+    datas=datasource.getBalanceByUserName(updates.message)
     # bot.send_message(chat_id=chat_id, text=datas[0]+' '+datas[1])
-    bot.send_message(chat_id=chat_id, text='?1')
-    bot.send_message(chat_id=chat_id, text=updates.user.get_chat_administrators+' '+updates.user.get_admin_ids)
-    bot.send_message(chat_id=chat_id, text='?2')
+    
+    # bot.send_message(chat_id=chat_id, text=updates.user.get_chat_administrators+' '+updates.user.get_admin_ids)
+    # bot.send_message(chat_id=chat_id, text='?2')
 
-balance_handler = CommandHandler('balance', order,pass_args=True)
+balance_handler = CommandHandler('balance', balance)
 dispatcher.add_handler(balance_handler)
 
 #服务命令
