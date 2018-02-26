@@ -1,6 +1,8 @@
 import telegram
+import sys
+import os
 from telegram import KeyboardButton,ReplyKeyboardMarkup,InlineQueryResultArticle, InputTextMessageContent,InlineKeyboardButton,InlineKeyboardMarkup
-from telegram.ext import Updater,MessageHandler, Filters,CommandHandler,InlineQueryHandler
+from telegram.ext import Updater,MessageHandler, Filters,CommandHandler,InlineQueryHandler,RegexHandler
 from telegram.error import (TelegramError, Unauthorized, BadRequest, 
                             TimedOut, ChatMigrated, NetworkError)
 from util import build_menu
@@ -8,6 +10,9 @@ import logging
 from functools import wraps
 from mwt import MWT
 from myFilter import RateLimited
+import exception
+import datasource
+
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -53,7 +58,7 @@ def star(bot,updates):
     #     bot.send_message(chat_id=chat_id, text="频率没问题 ")
     # else:
     #     bot.send_message(chat_id=chat_id, text="太快了宝贝")
-    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！来爸爸这里奶你一口\n/menu 早餐菜单\n /service 其他服务")
+    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！奶爸奶你一口\n/menu 早餐菜单\n /service 其他服务\n/order (点餐)\n点餐格式：/order 油条 鸡蛋")
     
     # bot.send_photo(chat_id=chat_id, photo='https://cache8.shzunliansy.com/app/telegram/breakfast.jpg')
 
@@ -112,16 +117,16 @@ dispatcher.add_handler(menu_handler)
 #点单命令
 @RateLimited(1)
 @restricted
-def order(bot,updates):
+def order(bot,updates, args):
     chat_id = updates.message.chat_id
     print(chat_id)
-    button_list = [
-    KeyboardButton(text="/food#酱爆鸡扒",callback_data=None),
-    KeyboardButton(text="/food#深海八爪鱼",callback_data=None),
-    KeyboardButton(text="/drink#神农山泉",callback_data=None),
-    ]
-    reply_markup = ReplyKeyboardMarkup(build_menu(button_list, n_cols=2))
-    bot.send_message(chat_id = chat_id, text="奶爸服务", reply_markup=reply_markup)
+    # button_list = [
+    # KeyboardButton(text="/food#酱爆鸡扒",callback_data=None),
+    # KeyboardButton(text="/food#深海八爪鱼",callback_data=None),
+    # KeyboardButton(text="/drink#神农山泉",callback_data=None),
+    # ]
+    # reply_markup = ReplyKeyboardMarkup(build_menu(button_list, n_cols=2))
+    # bot.send_message(chat_id = chat_id, text="奶爸服务", reply_markup=reply_markup)
     #自定义按钮
     # custom_keyboard = [['/food#酱爆鸡扒', '/food#深海八爪鱼'], 
     #                ['/drink#神农山泉', '/drink#哇哈哈']]
@@ -129,10 +134,24 @@ def order(bot,updates):
     # bot.send_message(chat_id=chat_id, 
     #               text="奶爸服务", 
     #               reply_markup=reply_markup)
-
-
-order_handler = CommandHandler('order', order)
+   
+order_handler = CommandHandler('order', order,pass_args=True)
 dispatcher.add_handler(order_handler)
+
+#余额命令
+@RateLimited(1)
+@restricted
+def balance(bot,updates, args):
+    chat_id = updates.message.chat_id
+    print(chat_id)
+    # datas=datasource.getBalanceByUserName(args[0])
+    # bot.send_message(chat_id=chat_id, text=datas[0]+' '+datas[1])
+    bot.send_message(chat_id=chat_id, text='?1')
+    bot.send_message(chat_id=chat_id, text=updates.user.get_chat_administrators+' '+updates.user.get_admin_ids)
+    bot.send_message(chat_id=chat_id, text='?2')
+
+balance_handler = CommandHandler('balance', order,pass_args=True)
+dispatcher.add_handler(balance_handler)
 
 #服务命令
 @RateLimited(1)
@@ -163,6 +182,17 @@ dispatcher.add_handler(service_handler)
 #清除按钮
 @RateLimited(1)
 @restricted
+def close(bot,updates):
+    chat_id = updates.message.chat_id
+    datasource.close
+    bot.send_message(chat_id=chat_id, text="数据库关闭成功奶爸再次为你服务~")
+
+close_handler = CommandHandler('close', close)
+dispatcher.add_handler(close_handler)
+
+
+#关闭所有进程
+@restricted
 def delB(bot,updates):
     chat_id = updates.message.chat_id
     reply_markup = telegram.ReplyKeyboardRemove()
@@ -172,31 +202,15 @@ delB_handler = CommandHandler('delB', delB)
 dispatcher.add_handler(delB_handler)
 
 
+#未知命令反馈
+def unknown(bot, updates):
+     bot.send_message(chat_id=updates.message.chat_id, text="奶爸没看懂")
 
+unknown_handler = MessageHandler(Filters.command, unknown)
+dispatcher.add_handler(unknown_handler)
 
 #错误回调
-def error_callback(bot, updates, error):
-  
-    chat_id = updates.message.chat_id
-    print(chat_id)
-    try:
-        raise error
-    except Unauthorized:
-        updates.message.reply_text("神杖的权利已经不在你的手里！")
-    except BadRequest:
-        updates.message.reply_text("奶爸受伤了，正在修复~")
-    except TimedOut:
-        updates.message.reply_text("等一会等一会~奶爸有点忙！")
-    except NetworkError:
-        updates.message.reply_text("奶爸不在工作岗位~")
-    except ChatMigrated as e:
-        updates.message.reply_text("聊天已迁移")
-        chat_id = e.new_chat_id
-    except TelegramError:
-        updates.message.reply_text("纸飞机崩啦！")
-
-
-dispatcher.add_error_handler(error_callback)
+dispatcher.add_error_handler(exception.error_callback)
 
 
 
