@@ -63,7 +63,6 @@ dispatcher.add_handler(start_handler)
 
 #菜单命令
 @RateLimited(0.5)
-@restricted
 def menu(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
@@ -185,11 +184,11 @@ def error_callback(bot, updates, error):
     except Unauthorized:
         updates.message.reply_text("神杖的权利已经不在你的手里！")
     except BadRequest:
-        updates.message.reply_text("坏请求")
+        updates.message.reply_text("奶爸受伤了，正在修复~")
     except TimedOut:
-        updates.message.reply_text("超时")
+        updates.message.reply_text("等一会等一会~奶爸有点忙！")
     except NetworkError:
-        updates.message.reply_text("网络错误")
+        updates.message.reply_text("奶爸不在工作岗位~")
     except ChatMigrated as e:
         updates.message.reply_text("聊天已迁移")
         chat_id = e.new_chat_id
