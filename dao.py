@@ -36,20 +36,6 @@ def delete(sql,data):
     connection.commit()
 
 
-def updateTe(name,money):
-    sql = "update telegram_user set balance =%.2f where userName = '%s')"  
-    data = (money,name)
-    cursor.execute(sql%data)  
-    print(name+' 成功修改', cursor.rowcount, '条数据') 
-    connection.commit()
-
-def deleteTe(name):
-    sql= "delete from telegram_user where userName = '%s' "
-    data = (name)
-    cursor.execute(sql % data)
-    print(name+' 成功删除', cursor.rowcount, '条数据') 
-    connection.commit()
-
 # 关闭连接  
 def close():
     print('开始关闭数据库连接') 
