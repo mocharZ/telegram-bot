@@ -145,7 +145,7 @@ def order(bot,updates):
             state = '执行完毕'
         elif datas[4]==2:
             state = '废弃'
-        bot.send_message(chat_id=chat_id, text="单号            订单信息       创建时间             状态  费用\n"+datas[0]+' '+datas[1]+' ['+str(datas[2])+'] '+str(datas[3])+' '+state)
+        bot.send_message(chat_id=chat_id, text="名字 单号            订单信息     创建时间            状态\n"+datas[0]+' '+datas[1]+' ['+str(datas[2])+'] '+str(datas[3])+' '+state)
     else:
         bot.send_message(chat_id=chat_id, text='订单有误，参考格式：/orderB 油条 鸡蛋 豆浆')
    
