@@ -30,6 +30,30 @@ def getBalanceByUserName(name):
     connection.commit()
     return args
 
+# 查询余额数据
+def getBalance(**params):
+    print("开始查询余额")
+    sql_1 = "select * from telegram_user where tel_id = %.2f"
+
+    for key , value in params.items():
+        if key == 'from':
+            for inKey , inValue in params[key].items():
+                    if inKey == 'id':
+                            print(params[key][inKey])
+
+    data = (params[key][inKey])
+    cout_1=cursor.execute(sql_1 % data)  
+    print("数量： "+str(cout_1))  
+    args=[]
+    for row in cursor.fetchall():  
+        print("id:",str(row[0]),'userName',str(row[1]),'balance',str(row[2]))  
+        args.append(str(row[1]))
+        args.append('余额：'+str(row[2]))
+    # sql_2 = 'insert into telegram_user(userName,balance) value("joey",2000)'  
+    # cout_2=cursor.execute(sql_2)  
+    # print("数量： "+str(cout_2))  
+    connection.commit()
+    return args
 
 def insert(name,money):
     sql = "insert into telegram_user(userName,balance) value('%s', %.2f)"  

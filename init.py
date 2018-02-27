@@ -1,6 +1,7 @@
 import telegram
 import sys,os
 import time
+import paramiko
 from telegram.ext import Updater
 from mwt import MWT
 #初始数据
@@ -48,9 +49,11 @@ args = {'message_id': 682,
         'from': {'id': 356974645, 'first_name': 'Joey', 'is_bot': False, 'last_name': 'Zhang', 'username': 'Joey_Zhang', 'language_code': 'zh-CN'},
         'new_chat_member': None}
 
-# for key in sorted(args.keys)：
-#     if key == 'id':
-#         print(args[key])
+for key , value in args.items():
+    if key == 'from':
+        for inKey , inValue in args[key].items():
+                if inKey == 'id':
+                        print(args[key][inKey])
 
 
 

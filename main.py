@@ -148,9 +148,9 @@ def balance(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
     logging.error(updates.message)
-    bot.send_message(chat_id=chat_id, text=updates.message)
-    datas=datasource.getBalanceByUserName(updates.message)
-    # bot.send_message(chat_id=chat_id, text=datas[0]+' '+datas[1])
+    print("sss")
+    datas=datasource.getBalance(**updates.message)
+    bot.send_message(chat_id=chat_id, text=datas[0]+' '+datas[1])
     
     # bot.send_message(chat_id=chat_id, text=updates.user.get_chat_administrators+' '+updates.user.get_admin_ids)
     # bot.send_message(chat_id=chat_id, text='?2')
