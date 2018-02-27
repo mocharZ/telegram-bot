@@ -35,6 +35,11 @@ def delete(sql,data):
     print(' 成功修改', cursor.rowcount, '条数据') 
     connection.commit()
 
+def doTransaction(sqlAndData):
+    for sql , data in sqlAndData.items():
+        cursor.execute(sql%data)
+    print('事物成功') 
+    connection.commit()
 
 # 关闭连接  
 def close():

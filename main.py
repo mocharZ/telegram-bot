@@ -12,7 +12,7 @@ from mwt import MWT
 from myFilter import RateLimited
 import exception
 import service
-
+import dataList
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
@@ -27,13 +27,12 @@ dispatcher = updater.dispatcher
 
 #限制对处理程序的访问（装饰器）
 #这个装饰器允许你限制一个处理程序的访问权限，仅限于user_ids指定的LIST_OF_ADMINS。
-LIST_OF_ADMINS = [356974645]
 def restricted(func):
     @wraps(func)
     def wrapped(bot, updates, *args, **kwargs):
 
         user_id = updates.effective_user.id
-        if user_id not in LIST_OF_ADMINS:
+        if user_id not in dataList.LIST_OF_ADMINS:
             print("Unauthorized access denied for {}.".format(user_id))
             updates.message.reply_text(text="不好意思你无权限访问")
             return
@@ -138,7 +137,9 @@ def order(bot,updates):
     #               reply_markup=reply_markup)
     datas = service.userOrder(updates.message)
     if datas:
-        
+        if 'WRONG_NOT_ALLINCLUE' in datas:
+            bot.send_message(chat_id=chat_id, text='订单有误，每个名称要准确，参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
+            return
         if datas[4]==0:
             state = '执行中'
         elif datas[4]==1:
@@ -180,6 +181,20 @@ def orderList(bot,updates):
 
 orderList_handler = CommandHandler('getOrderListB', orderList)
 dispatcher.add_handler(orderList_handler)
+
+#当天开车订单信息
+@RateLimited(0.5)
+def orderListInterday():
+    chat_id = updates.message.chat_id
+    print(chat_id)
+    datas = service.getOrderListIntraday(updates.message)
+    if datas:
+        bot.send_message(chat_id=chat_id, text='单号  订单信息 创建时间 状态 费用\n'+datas)
+    else:
+        bot.send_message(chat_id=chat_id, text='今天没人点餐？不可能吧？')
+
+orderListInterday_handler = CommandHandler('getOrderListBInterday', orderListInterday)
+dispatcher.add_handler(orderListInterday_handler)
 
 #服务命令
 @RateLimited(1)

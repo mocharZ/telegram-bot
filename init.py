@@ -59,12 +59,19 @@ args = {'message_id': 682,
 #                         print(args[key][inKey])
 
 
-print( str(int(time.time()*1000))+str(int(time.clock()*1000000)))
+# print( str(int(time.time()*1000))+str(int(time.clock()*1000000)))
 
 print(str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-strs = '/order 油条 鸡蛋 豆浆'.split(' ')
-del strs[0]
-print(' '.join(strs))
+# strs = '/order 油条 鸡蛋 豆浆'.split(' ')
+# del strs[0]
+# print(' '.join(strs))
+
+import time  
+  
+
+today = datetime.datetime.today()
+datetime.datetime(today.year,today.month,today.day,0,0,0)
+print(str(datetime.datetime(today.year,today.month,today.day,0,0,0)))
 # print(bot.get_me())
 
 #获取用户发送到bot的信息
