@@ -11,7 +11,7 @@ from functools import wraps
 from mwt import MWT
 from myFilter import RateLimited
 import exception
-import datasource
+import service
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -61,7 +61,7 @@ def star(bot,updates):
     #     bot.send_message(chat_id=chat_id, text="频率没问题 ")
     # else:
     #     bot.send_message(chat_id=chat_id, text="太快了宝贝")
-    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！奶爸奶你一口\n/menu - 早餐菜单\n /service - 其他服务\n/order - 点餐\n点餐格式：/order 油条 鸡蛋\n例子:/order 油条 鸡蛋 豆浆\n/orderList 订单信息\n/balance - 余额")
+    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！奶爸奶你一口\n/menu - 早餐菜单\n点餐格式：/orderB 油条 鸡蛋\n/getOrderListB 自己的订单总信息\n/balanceB - 余额")
     
     # bot.send_photo(chat_id=chat_id, photo='https://cache8.shzunliansy.com/app/telegram/breakfast.jpg')
 
@@ -119,8 +119,7 @@ dispatcher.add_handler(menu_handler)
 
 #点单命令
 @RateLimited(1)
-@restricted
-def order(bot,updates, args):
+def order(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
     # button_list = [
@@ -137,31 +136,55 @@ def order(bot,updates, args):
     # bot.send_message(chat_id=chat_id, 
     #               text="奶爸服务", 
     #               reply_markup=reply_markup)
+    datas = service.userOrder(updates.message)
+    if datas:
+        
+        if datas[4]==0:
+            state = '执行中'
+        elif datas[4]==1:
+            state = '执行完毕'
+        elif datas[4]==2:
+            state = '废弃'
+        bot.send_message(chat_id=chat_id, text="单号            订单信息       创建时间             状态  费用\n"+datas[0]+' '+datas[1]+' ['+str(datas[2])+'] '+str(datas[3])+' '+state)
+    else:
+        bot.send_message(chat_id=chat_id, text='订单有误，参考格式：/orderB 油条 鸡蛋 豆浆')
    
-order_handler = CommandHandler('order', order,pass_args=True)
+order_handler = CommandHandler('orderB', order)
 dispatcher.add_handler(order_handler)
 
 #余额命令
-@RateLimited(1)
-@restricted
+@RateLimited(0.5)
 def balance(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
     logging.error(updates.message)
-    print("sss")
-    datas=datasource.getBalance(**updates.message)
-    bot.send_message(chat_id=chat_id, text=datas[0]+' '+datas[1])
+    datas=service.getBalance(updates.message)
+    bot.send_message(chat_id=chat_id, text=datas[0]+datas[1]+datas[2])
     
     # bot.send_message(chat_id=chat_id, text=updates.user.get_chat_administrators+' '+updates.user.get_admin_ids)
     # bot.send_message(chat_id=chat_id, text='?2')
 
-balance_handler = CommandHandler('balance', balance)
+balance_handler = CommandHandler('balanceB', balance)
 dispatcher.add_handler(balance_handler)
+
+#用户自己订单信息
+@RateLimited(0.5)
+def orderList(bot,updates):
+    chat_id = updates.message.chat_id
+    print(chat_id)
+    datas = service.getOrderListSelf(updates.message)
+    if datas:
+        bot.send_message(chat_id=chat_id, text='单号  订单信息 创建时间 状态 费用\n'+datas)
+    else:
+        bot.send_message(chat_id=chat_id, text='老铁你就一次也没点过早餐啊~')
+
+orderList_handler = CommandHandler('getOrderListB', orderList)
+dispatcher.add_handler(orderList_handler)
 
 #服务命令
 @RateLimited(1)
 @restricted
-def service(bot,updates):
+def doService(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
     # button_list = [
@@ -181,7 +204,7 @@ def service(bot,updates):
                   reply_markup=reply_markup)
 
 
-service_handler = CommandHandler('service', service)
+service_handler = CommandHandler('service', doService)
 dispatcher.add_handler(service_handler)
 
 #清除按钮
@@ -189,19 +212,19 @@ dispatcher.add_handler(service_handler)
 @restricted
 def close(bot,updates):
     chat_id = updates.message.chat_id
-    datasource.close
+    service.closeConnection
     bot.send_message(chat_id=chat_id, text="数据库关闭成功奶爸再次为你服务~")
 
 close_handler = CommandHandler('close', close)
 dispatcher.add_handler(close_handler)
 
 
-#关闭所有进程
+#关闭所有自定义按钮
 @restricted
 def delB(bot,updates):
     chat_id = updates.message.chat_id
     reply_markup = telegram.ReplyKeyboardRemove()
-    bot.send_message(chat_id=chat_id, text="清除成功奶爸再次为你服务~\n /menu -点饭", reply_markup=reply_markup)
+    bot.send_message(chat_id=chat_id, text="清除按钮成功奶爸再次为你服务~\n /menu -点饭", reply_markup=reply_markup)
 
 delB_handler = CommandHandler('delB', delB)
 dispatcher.add_handler(delB_handler)

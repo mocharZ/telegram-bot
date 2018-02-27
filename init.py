@@ -4,6 +4,7 @@ import time
 import paramiko
 from telegram.ext import Updater
 from mwt import MWT
+import datetime
 #初始数据
 # bot = telegram.Bot(token="508830944:AAGdJMj2B8BSJ7tlV0oisa4ty2_9dMI386k")
 # updates = bot.get_updates()
@@ -49,15 +50,21 @@ args = {'message_id': 682,
         'from': {'id': 356974645, 'first_name': 'Joey', 'is_bot': False, 'last_name': 'Zhang', 'username': 'Joey_Zhang', 'language_code': 'zh-CN'},
         'new_chat_member': None}
 
-for key , value in args.items():
-    if key == 'from':
-        for inKey , inValue in args[key].items():
-                if inKey == 'id':
-                        print(args[key][inKey])
+# for key , value in args.items():
+#     if key == 'from':
+#         for inKey , inValue in args[key].items():
+#                 if inKey == 'id':
+#                         print(args[key][inKey])
+#                 elif inKey == 'username':
+#                         print(args[key][inKey])
 
 
+print( str(int(time.time()*1000))+str(int(time.clock()*1000000)))
 
-
+print(str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+strs = '/order 油条 鸡蛋 豆浆'.split(' ')
+del strs[0]
+print(' '.join(strs))
 # print(bot.get_me())
 
 #获取用户发送到bot的信息
