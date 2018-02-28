@@ -60,7 +60,7 @@ def star(bot,updates):
     #     bot.send_message(chat_id=chat_id, text="频率没问题 ")
     # else:
     #     bot.send_message(chat_id=chat_id, text="太快了宝贝")
-    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！奶爸奶你一口\n/menu - 早餐菜单\n点餐格式：/orderB 油条 鸡蛋\n/getOrderListB 自己的订单总信息\n/balanceB - 余额")
+    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！让奶爸奶你一口\n/menu - 早餐菜单\n点餐格式：/orderB 安心油条 茶叶蛋\n/balanceB - 余额\n/GOLB 自己历史订单 \n/cancelB 取消订单(格式:/cancelB 1519781265240jo)")
     
     # bot.send_photo(chat_id=chat_id, photo='https://cache8.shzunliansy.com/app/telegram/breakfast.jpg')
 
@@ -137,21 +137,41 @@ def order(bot,updates):
     #               reply_markup=reply_markup)
     datas = service.userOrder(updates.message)
     if datas:
-        if 'WRONG_NOT_ALLINCLUE' in datas:
+        if len(datas) < 2 and 'WRONG_NOT_ALLINCLUE' in datas:
             bot.send_message(chat_id=chat_id, text='订单有误，每个名称要准确，参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
             return
+        if len(datas) < 2 and 'WRONG_NO_PARAMS' in datas:
+            bot.send_message(chat_id=chat_id, text='啥也没点啊老哥，参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
+            return
         if datas[4]==0:
-            state = '执行中'
+            state = '未付钱'
         elif datas[4]==1:
-            state = '执行完毕'
+            state = '已付钱'
         elif datas[4]==2:
-            state = '废弃'
-        bot.send_message(chat_id=chat_id, text="名字 单号            订单信息     创建时间            状态\n"+datas[0]+' '+datas[1]+' ['+str(datas[2])+'] '+str(datas[3])+' '+state)
+            state = '废弃订单'
+        bot.send_message(chat_id=chat_id, text="单号               订单信息     创建时间            状态  费用\n"+datas[0]+'\n'+datas[1]+' ['+str(datas[2])+'] '+str(datas[3])+' '+state+' '+str(datas[5])+'p')
     else:
-        bot.send_message(chat_id=chat_id, text='订单有误，参考格式：/orderB 油条 鸡蛋 豆浆')
+        bot.send_message(chat_id=chat_id, text='订单有误，参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
    
 order_handler = CommandHandler('orderB', order)
 dispatcher.add_handler(order_handler)
+
+#取消订单命令
+@RateLimited(1)
+def cancel(bot,updates):
+    chat_id = updates.message.chat_id
+    print(chat_id)
+    dataCode = service.cancelOrder(updates.message)
+    if dataCode  :
+        if dataCode==6002:
+            bot.send_message(chat_id=chat_id, text='取消订单有误，参考格式：/cancelB 1519781265240jo')
+            return
+        else:
+            bot.send_message(chat_id=chat_id, text='奶爸有点忙处理不过来啊~~')
+            return
+    bot.send_message(chat_id=chat_id, text='取消订单成功')
+cancel_handler = CommandHandler('cancelB', cancel)
+dispatcher.add_handler(cancel_handler)
 
 #余额命令
 @RateLimited(0.5)
@@ -175,16 +195,17 @@ def orderList(bot,updates):
     print(chat_id)
     datas = service.getOrderListSelf(updates.message)
     if datas:
-        bot.send_message(chat_id=chat_id, text='单号  订单信息 创建时间 状态 费用\n'+datas)
+        bot.send_message(chat_id=chat_id, text='单号           订单信息    创建时间    状态 费用\n'+datas)
     else:
         bot.send_message(chat_id=chat_id, text='老铁你就一次也没点过早餐啊~')
 
-orderList_handler = CommandHandler('getOrderListB', orderList)
+orderList_handler = CommandHandler('GOLB', orderList)
 dispatcher.add_handler(orderList_handler)
 
 #当天开车订单信息
 @RateLimited(0.5)
-def orderListInterday():
+@restricted
+def orderListInterday(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
     datas = service.getOrderListIntraday(updates.message)
@@ -193,8 +214,19 @@ def orderListInterday():
     else:
         bot.send_message(chat_id=chat_id, text='今天没人点餐？不可能吧？')
 
-orderListInterday_handler = CommandHandler('getOrderListBInterday', orderListInterday)
+orderListInterday_handler = CommandHandler('LL', orderListInterday)
 dispatcher.add_handler(orderListInterday_handler)
+
+#存款
+@RateLimited(1)
+@restricted
+def doposit(bot,updates):
+    chat_id = updates.message.chat_id
+    print(chat_id)
+    service.deposit(updates.message)
+doposit_handler = CommandHandler('depositB', doposit)
+dispatcher.add_handler(doposit_handler)
+
 
 #服务命令
 @RateLimited(1)

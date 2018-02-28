@@ -72,6 +72,11 @@ import time
 today = datetime.datetime.today()
 datetime.datetime(today.year,today.month,today.day,0,0,0)
 print(str(datetime.datetime(today.year,today.month,today.day,0,0,0)))
+
+today = datetime.datetime.today()
+today = datetime.datetime(today.year,today.month,today.day,0,0,0) 
+tommorrow = today + datetime.timedelta(days=1)
+print(str(tommorrow))
 # print(bot.get_me())
 
 #获取用户发送到bot的信息

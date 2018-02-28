@@ -32,7 +32,7 @@ def update(sql,data):
 
 def delete(sql,data):
     cursor.execute(sql%data)  
-    print(' 成功修改', cursor.rowcount, '条数据') 
+    print(' 成功删除', cursor.rowcount, '条数据') 
     connection.commit()
 
 def doTransaction(sqlAndData):

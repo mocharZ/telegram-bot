@@ -10,9 +10,12 @@ LIST_OF_MNEU_ORDER_SINGLE = {'水煎包':40,
                              '地瓜粥':40,
                              '白粥':30,
                              '茶叶蛋':30,
-                             '咸菜':30,
+                             '咸菜':40,
                              '豆浆':40,
                              '绿豆汤':80,
                             }
 
-LIST_OF_STANTS = ['WRONG_NOT_ALLINCLUE']
+LIST_OF_STANTS = {'WRONG_NOT_ALLINCLUE':6001,
+                  'WRONG_PARAM':6002
+                 }
+                 
