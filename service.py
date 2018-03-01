@@ -13,11 +13,6 @@ def getBalance(message):
     print("开始查询余额")
     sql_1 = "select * from telegram_user where tel_id = %.2f"
     
-    # for key , value in params.items():
-    #     if key == 'from':
-    #         for inKey , inValue in params[key].items():
-    #                 if inKey == 'id':
-    #                         print(params[key][inKey])
     args=[]
     data = (message.from_user.id)
     rows=dao.select(sql_1 , data)  
@@ -34,10 +29,7 @@ def getBalance(message):
             args.append("大神："+str(row[2]))
             args.append('\n余额：'+str(row[3]))
             args.append('\n编号：'+str(row[0]))
-        
-        # sql_2 = 'insert into telegram_user(userName,balance) value("joey",2000)'  
-        # cout_2=cursor.execute(sql_2)  
-        # print("数量： "+str(cout_2))  
+
     closeConnection()
     return args
 
@@ -93,16 +85,25 @@ def cancelOrder(message):
     try:
         print('用户取消订单')
         #清除订单数据
-        sql_1 = "delete from telegram_order_list where order_no = '%s'"
+        sql_2 = "delete from telegram_order_list where order_no = '%s'"
 
         order_info = handleOrderInfo(message.text)
         if not order_info :
             return dataList.LIST_OF_STANTS["WRONG_PARAM"]
         print(order_info)
-        data_1 = (order_info.strip())
+        data_2 = (order_info.strip())
         # print(order_username+' '+order_no+' '+str(tel_id)+' '+' '.join(order_info)+''+str(dt))
+        #用户表返回金额
+        sql_1 = "update telegram_user set balance = balance + (select payments from telegram_order_list where order_no = '%s') where tel_id = (select tel_id from telegram_order_list where order_no = '%s')"
+        data_1 = (order_info.strip(),order_info.strip())
         #事物结算
-        dao.delete(sql_1,data_1)
+        #事物字典
+        DsqlAndData = {}
+        DsqlAndData = {
+            sql_1 : data_1,
+            sql_2 : data_2
+        }
+        dao.doTransaction(DsqlAndData)
     except Exception as e :
         logging.error(e)
         dao.connection.rollback
@@ -113,7 +114,7 @@ def cancelOrder(message):
 def getOrderListSelf(message):
     try:
         print('获取用户自己的订单集合')
-        sql_1 = 'select order_username,order_no,order_info,createTime,state,payments from telegram_order_list where tel_id = %d'
+        sql_1 = 'select order_username,order_no,order_info,createTime,state,payments from telegram_order_list where tel_id = %d order by createTime desc'
         data_1 = (message.from_user.id)
         rows = dao.select(sql_1,data_1)
         print("数量： "+str(rows['count'])) 
@@ -155,25 +156,55 @@ def getOrderListIntraday(message):
         data_1 = (today,tommorrow)
         rows = dao.select(sql_1,data_1)
         print("数量： "+str(rows['count'])) 
-        # argsv = [] 
         if rows['count'] > 0:
-            strs = ''
+            strs = '单号  订单信息 状态 费用\n'
             for row in rows['rows']:  
                 print('order_username:',str(row[0])," order_no:",str(row[1]),'order_info',str(row[2]),'createTime',str(row[3]),'state',str(row[4]),'payments',str(row[5]))  
-                # args = []
-                # args.append(str(row[0]))
-                # args.append(str(row[1]))
-                # args.append(str(row[2]))
-                # args.append(str(row[3]))
-                # args.append(str(row[4]))
                 if row[4]==0:
                     state = '执行中'
                 elif row[4]==1:
                     state = '执行完毕'
                 elif row[4]==2:
                     state = '废弃'
-                strs = strs+str(row[0]+':\n '+row[1])+'['+str(row[2])+'] '+str(row[3])+' '+state+' '+str(row[5])+'p'+'\n'
-                # argsv.append(args)
+                #显示数据展示 姓名\n 单号 订单信息 状态 费用 
+                strs = strs+str(row[0]+':\n'+row[1])+'['+str(row[2])+'] '+' '+state+' '+str(row[5])+'p\n'
+            return strs
+    
+    except Exception as e:
+        logging.error(e)
+        dao.connection.rollback
+    finally:
+        closeConnection()
+
+#截单并展示当天订单信息
+def cutOffTime(message):
+    try:
+        print('获取当天的订单数据')
+        sql_1 ="select order_username,order_no,order_info,createTime,state,payments from telegram_order_list where createTime > '%s' and createTime < '%s'"
+        today = datetime.datetime.today()
+        today = datetime.datetime(today.year,today.month,today.day,0,0,0) 
+        tommorrow = today + datetime.timedelta(days=1)
+        data_1 = (today,tommorrow)
+        rows = dao.select(sql_1,data_1)
+        print("数量： "+str(rows['count'])) 
+        if rows['count'] > 0:
+            strs = '单号  订单信息 状态 费用\n'
+            total = 0
+            for row in rows['rows']:  
+                print('order_username:',str(row[0])," order_no:",str(row[1]),'order_info',str(row[2]),'createTime',str(row[3]),'state',str(row[4]),'payments',str(row[5]))  
+                if row[4]==0:
+                    state = '执行中'
+                elif row[4]==1:
+                    state = '执行完毕'
+                elif row[4]==2:
+                    state = '废弃'
+                #显示数据展示 姓名\n 单号 订单信息 状态 费用 
+                strs = strs+str(row[0]+':\n'+row[1])+'['+str(row[2])+'] '+' '+state+' '+str(row[5])+'p\n'
+                total = total+row[5]
+            #新增 订单数  订单总金额 
+            strs = strs+'\n'+'订单数： '+str(rows['count'])+'   此次订单总金额： '+str(total)+'p'
+            #新增随机拿饭人员
+            strs = strs + '\n陪同拿饭大神: '+ randomOneForTakefood(today,tommorrow)
             return strs
     
     except Exception as e:
@@ -235,7 +266,33 @@ def calPay(message):
                 pay += value
     return {'code': 'SUCCESS' ,'value': pay}
 
+import random 
 
+#随机拿餐人员
+def randomOneForTakefood(today,tommorrow):
+    sql_1 = "select order_username from telegram_order_list  where createTime > '%s' and createTime < '%s'"
+    data_1 = (today,tommorrow)
+    rows = dao.select(sql_1,data_1)
+    print("数量： "+str(rows['count'])) 
+    if rows['count'] > 0:
+        rTotal = rows['count']
+        num = random.randint(1,rTotal)
+        return rows['rows'][num-1][0]
+
+#截单开关
+def getOrderCutOff():
+    try:
+        sql_1 = "select state from telegram_filter where filter_name = '%s'"
+        data_1 = ('order_order')
+        rows = dao.select(sql_1,data_1)
+        print("数量： "+str(rows['count'])) 
+        if rows['count'] > 0:
+            return rows['rows'][0][0]
+    except Exception as e :
+        logging.error(e)
+        return 1
+    finally:
+        closeConnection()
 def closeConnection():
     dao.close
 

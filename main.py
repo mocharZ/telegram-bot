@@ -39,6 +39,19 @@ def restricted(func):
         return func(bot, updates, *args, **kwargs)
     return wrapped
 
+#截单限制
+def cutoffRestricted(func):
+    @wraps(func)
+    def wrapped(bot, updates, *args, **kwargs):
+
+        state = service.getOrderCutOff()
+        print('是否截单：'+str(state))
+        if state != 1:
+            updates.message.reply_text(text="截单啦大神！~")
+            return
+        return func(bot, updates, *args, **kwargs)
+    return wrapped
+
 # 缓存的电报组管理员检查
 # 如果您想限制某些机器人功能给组管理员，
 # 您必须测试用户是否为该组中的管理员。
@@ -60,7 +73,7 @@ def star(bot,updates):
     #     bot.send_message(chat_id=chat_id, text="频率没问题 ")
     # else:
     #     bot.send_message(chat_id=chat_id, text="太快了宝贝")
-    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！让奶爸奶你一口\n/menu - 早餐菜单\n点餐格式：/orderB 安心油条 茶叶蛋\n/balanceB - 余额\n/GOLB 自己历史订单 \n/cancelB 取消订单(格式:/cancelB 1519781265240jo)")
+    bot.send_message(chat_id=chat_id, text="快撑不住了嘛？！让奶爸奶你一口\n/menu - 早餐菜单\n点餐格式：/orderB 安心油条 茶叶蛋 菜馅包子\n/balanceB - 余额\n/GOLB 自己历史订单 \n/cancelB 取消订单(格式:/cancelB 1519781265240jo)\n/LL 查询今天全部订单信息")
     
     # bot.send_photo(chat_id=chat_id, photo='https://cache8.shzunliansy.com/app/telegram/breakfast.jpg')
 
@@ -116,12 +129,7 @@ dispatcher.add_handler(menu_handler)
 # inline_caps_handler = InlineQueryHandler(inline_caps)
 # dispatcher.add_handler(inline_caps_handler)
 
-#点单命令
-@RateLimited(1)
-def order(bot,updates):
-    chat_id = updates.message.chat_id
-    print(chat_id)
-    # button_list = [
+# button_list = [
     # KeyboardButton(text="/food#酱爆鸡扒",callback_data=None),
     # KeyboardButton(text="/food#深海八爪鱼",callback_data=None),
     # KeyboardButton(text="/drink#神农山泉",callback_data=None),
@@ -135,6 +143,14 @@ def order(bot,updates):
     # bot.send_message(chat_id=chat_id, 
     #               text="奶爸服务", 
     #               reply_markup=reply_markup)
+
+#点单命令
+@RateLimited(1)
+@cutoffRestricted
+def order(bot,updates):
+    chat_id = updates.message.chat_id
+    print(chat_id)
+    
     datas = service.userOrder(updates.message)
     if datas:
         if len(datas) < 2 and 'WRONG_NOT_ALLINCLUE' in datas:
@@ -158,6 +174,7 @@ dispatcher.add_handler(order_handler)
 
 #取消订单命令
 @RateLimited(1)
+@cutoffRestricted
 def cancel(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
@@ -204,18 +221,32 @@ dispatcher.add_handler(orderList_handler)
 
 #当天开车订单信息
 @RateLimited(0.5)
-@restricted
 def orderListInterday(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
     datas = service.getOrderListIntraday(updates.message)
     if datas:
-        bot.send_message(chat_id=chat_id, text='单号  订单信息 创建时间 状态 费用\n'+datas)
+        bot.send_message(chat_id=chat_id, text=datas)
     else:
         bot.send_message(chat_id=chat_id, text='今天没人点餐？不可能吧？')
 
 orderListInterday_handler = CommandHandler('LL', orderListInterday)
 dispatcher.add_handler(orderListInterday_handler)
+
+#截单并显示当天订单信息
+@RateLimited(0.5)
+@restricted
+def Cut_Off_Time(bot,updates):
+    chat_id = updates.message.chat_id
+    print(chat_id)
+    datas = service.cutOffTime(updates.message)
+    if datas:
+        bot.send_message(chat_id=chat_id, text=datas)
+    else:
+        bot.send_message(chat_id=chat_id, text='今天没人点餐？不可能吧？')
+
+Cut_off_Time_handler = CommandHandler('cutOffTime', Cut_Off_Time)
+dispatcher.add_handler(Cut_off_Time_handler)
 
 #存款
 @RateLimited(1)
@@ -224,6 +255,7 @@ def doposit(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
     service.deposit(updates.message)
+
 doposit_handler = CommandHandler('depositB', doposit)
 dispatcher.add_handler(doposit_handler)
 
@@ -259,7 +291,7 @@ dispatcher.add_handler(service_handler)
 @restricted
 def close(bot,updates):
     chat_id = updates.message.chat_id
-    service.closeConnection
+    service.closeConnection()
     bot.send_message(chat_id=chat_id, text="数据库关闭成功奶爸再次为你服务~")
 
 close_handler = CommandHandler('close', close)
