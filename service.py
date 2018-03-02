@@ -46,35 +46,35 @@ def userOrder(message):
             dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             data_2 = (message.from_user.first_name,message.from_user.id,0,dt)
             dao.insert(sql_2,data_2)
-        elif rows['count'] == 1:
-            #事物字典
-            DsqlAndData = {}
+        
+        #事物字典
+        DsqlAndData = {}
 
-            sql_3 = "insert into telegram_order_list(order_username,order_no,tel_id,order_info,createTime,updateTime,state,payments) value ('%s','%s',%d,'%s','%s','%s',%d,%d)"
-            #生成订单数据
-            order_username = message.from_user.first_name
-            order_no = str(int(time.time()*1000))+message.from_user.first_name[0]+message.from_user.first_name[1]
-            tel_id = message.from_user.id
-            order_info = handleOrderInfo(message.text)
-            if order_info.strip() == '':
-                return ['WRONG_NO_PARAMS']
-            state = 0
-            dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            payments = calPay(message)
-            if "SUCCESS" != payments['code']:
-                return [payments['code']]
-            data_3 = (order_username,order_no,tel_id,order_info,dt,dt,state,payments['value'])
-            # print(order_username+' '+order_no+' '+str(tel_id)+' '+' '.join(order_info)+''+str(dt))
-            #用户表扣费
-            sql_4 = 'update telegram_user set balance = balance - %d where tel_id = %d'
-            data_4 = (payments['value'],tel_id)
-            DsqlAndData = {
-                sql_3 : data_3,
-                sql_4 : data_4
-            }
-            #事物结算
-            dao.doTransaction(DsqlAndData)
-            return [order_username,order_no,order_info,dt,state,payments['value']]
+        sql_3 = "insert into telegram_order_list(order_username,order_no,tel_id,order_info,createTime,updateTime,state,payments) value ('%s','%s',%d,'%s','%s','%s',%d,%d)"
+        #生成订单数据
+        order_username = message.from_user.first_name
+        order_no = str(int(time.time()*1000))+message.from_user.first_name[0]+message.from_user.first_name[1]
+        tel_id = message.from_user.id
+        order_info = handleOrderInfo(message.text)
+        if order_info.strip() == '':
+            return ['WRONG_NO_PARAMS']
+        state = 0
+        dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        payments = calPay(message)
+        if "SUCCESS" != payments['code']:
+            return [payments['code']]
+        data_3 = (order_username,order_no,tel_id,order_info,dt,dt,state,payments['value'])
+        # print(order_username+' '+order_no+' '+str(tel_id)+' '+' '.join(order_info)+''+str(dt))
+        #用户表扣费
+        sql_4 = 'update telegram_user set balance = balance - %d where tel_id = %d'
+        data_4 = (payments['value'],tel_id)
+        DsqlAndData = {
+            sql_3 : data_3,
+            sql_4 : data_4
+        }
+        #事物结算
+        dao.doTransaction(DsqlAndData)
+        return [order_username,order_no,order_info,dt,state,payments['value']]
     except Exception as e :
         logging.error(e)
         dao.connection.rollback
@@ -118,17 +118,10 @@ def getOrderListSelf(message):
         data_1 = (message.from_user.id)
         rows = dao.select(sql_1,data_1)
         print("数量： "+str(rows['count'])) 
-        # argsv = [] 
         if rows['count'] > 0:
             strs = ''
             for row in rows['rows']:  
                 print('order_username:',str(row[0])," order_no:",str(row[1]),'order_info',str(row[2]),'createTime',str(row[3]),'state',str(row[4]),'payments',str(row[5]))  
-                # args = []
-                # args.append(str(row[0]))
-                # args.append(str(row[1]))
-                # args.append(str(row[2]))
-                # args.append(str(row[3]))
-                # args.append(str(row[4]))
                 if row[4]==0:
                     state = '未付钱'
                 elif row[4]==1:
@@ -205,6 +198,7 @@ def cutOffTime(message):
             strs = strs+'\n'+'订单数： '+str(rows['count'])+'   此次订单总金额： '+str(total)+'p'
             #新增随机拿饭人员
             strs = strs + '\n陪同拿饭大神: '+ randomOneForTakefood(today,tommorrow)
+            orderCutOff()
             return strs
     
     except Exception as e:
@@ -228,6 +222,15 @@ def deposit(message):
         data_1=(int(order_info[1]),dt,int(order_info[0]))
         dao.update(sql_1,data_1)
 
+        # #充值后温馨提示
+        # strs = '管理员给您充值： '+order_info[1]+'p'+'\n下面是给您充值后余额数据：\n\n'
+        
+        # #余额数据
+        # args = getBalance(message)
+
+        # #返回数据结构
+        # datas = {'info':strs,'data':args}
+        # return datas
     except Exception as e :
         logging.error(e)
         dao.connection.rollback
@@ -293,6 +296,30 @@ def getOrderCutOff():
         return 1
     finally:
         closeConnection()
+
+#截单
+def orderCutOff():
+    try:
+        sql_1 = "update telegram_filter set state = 0 where filter_name = '%s'"
+        data_1 = ('order_order')
+        dao.update(sql_1,data_1)
+        print('截单成功')
+    except Exception as e:
+        logging.error(e)
+    finally:
+        closeConnection()
+#
+def orderOpen():
+    try:
+        sql_1 = "update telegram_filter set state = 1 where filter_name = '%s'"
+        data_1 = ('order_order')
+        dao.update(sql_1,data_1)
+        print('开单成功')
+    except Exception as e:
+        logging.error(e)
+    finally:
+        closeConnection()
+
 def closeConnection():
     dao.close
 

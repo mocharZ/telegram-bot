@@ -68,6 +68,9 @@ def cutoffRestricted(func):
 def star(bot,updates):
     chat_id = updates.message.chat_id
     print(chat_id)
+    user_id = updates.effective_user.id
+    if user_id in dataList.LIST_OF_ADMINS:
+        service.orderOpen()
     # if updates.message.from_user.id in get_admin_ids(bot, chat_id):
     #     # admin only
     #     bot.send_message(chat_id=chat_id, text="频率没问题 ")
@@ -148,13 +151,13 @@ dispatcher.add_handler(menu_handler)
 @RateLimited(1)
 @cutoffRestricted
 def order(bot,updates):
-    chat_id = updates.message.chat_id
+    chat_id = updates.effective_user.id
     print(chat_id)
     
     datas = service.userOrder(updates.message)
     if datas:
         if len(datas) < 2 and 'WRONG_NOT_ALLINCLUE' in datas:
-            bot.send_message(chat_id=chat_id, text='订单有误，每个名称要准确，参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
+            bot.send_message(chat_id=chat_id, text='订单有误，每个名称要准确，间隔都是一个空格哦，\n参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
             return
         if len(datas) < 2 and 'WRONG_NO_PARAMS' in datas:
             bot.send_message(chat_id=chat_id, text='啥也没点啊老哥，参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
@@ -176,7 +179,7 @@ dispatcher.add_handler(order_handler)
 @RateLimited(1)
 @cutoffRestricted
 def cancel(bot,updates):
-    chat_id = updates.message.chat_id
+    chat_id = updates.effective_user.id
     print(chat_id)
     dataCode = service.cancelOrder(updates.message)
     if dataCode  :
@@ -193,7 +196,7 @@ dispatcher.add_handler(cancel_handler)
 #余额命令
 @RateLimited(0.5)
 def balance(bot,updates):
-    chat_id = updates.message.chat_id
+    chat_id = updates.effective_user.id
     print(chat_id)
     logging.error(updates.message)
     datas=service.getBalance(updates.message)
@@ -208,7 +211,7 @@ dispatcher.add_handler(balance_handler)
 #用户自己订单信息
 @RateLimited(0.5)
 def orderList(bot,updates):
-    chat_id = updates.message.chat_id
+    chat_id = updates.effective_user.id
     print(chat_id)
     datas = service.getOrderListSelf(updates.message)
     if datas:
@@ -252,7 +255,7 @@ dispatcher.add_handler(Cut_off_Time_handler)
 @RateLimited(1)
 @restricted
 def doposit(bot,updates):
-    chat_id = updates.message.chat_id
+    chat_id = updates.effective_user.id
     print(chat_id)
     service.deposit(updates.message)
 
