@@ -81,7 +81,7 @@ def star(bot,updates):
     # bot.send_photo(chat_id=chat_id, photo='https://cache8.shzunliansy.com/app/telegram/breakfast.jpg')
 
 
-start_handler = CommandHandler('start', star)
+start_handler = CommandHandler('help', star)
 dispatcher.add_handler(start_handler)
 
 #菜单命令
@@ -157,7 +157,7 @@ def order(bot,updates):
     datas = service.userOrder(updates.message)
     if datas:
         if len(datas) < 2 and 'WRONG_NOT_ALLINCLUE' in datas:
-            bot.send_message(chat_id=chat_id, text='订单有误，每个名称要准确，间隔都是一个空格哦，\n参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
+            bot.send_message(chat_id=chat_id, text='订单有误，每个名称要准确（参照菜单上的），间隔都是一个空格哦，\n参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
             return
         if len(datas) < 2 and 'WRONG_NO_PARAMS' in datas:
             bot.send_message(chat_id=chat_id, text='啥也没点啊老哥，参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
@@ -170,7 +170,7 @@ def order(bot,updates):
             state = '废弃订单'
         bot.send_message(chat_id=chat_id, text="单号               订单信息     创建时间            状态  费用\n"+datas[0]+'\n'+datas[1]+' ['+str(datas[2])+'] '+str(datas[3])+' '+state+' '+str(datas[5])+'p')
     else:
-        bot.send_message(chat_id=chat_id, text='订单有误，参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
+        bot.send_message(chat_id=chat_id, text='订单有误，每个名称要准确（参照菜单上的），间隔都是一个空格哦。参考格式：/orderB 安心油条 茶叶蛋 菜馅包子')
    
 order_handler = CommandHandler('orderB', order)
 dispatcher.add_handler(order_handler)
@@ -257,7 +257,9 @@ dispatcher.add_handler(Cut_off_Time_handler)
 def doposit(bot,updates):
     chat_id = updates.effective_user.id
     print(chat_id)
-    service.deposit(updates.message)
+    datas = service.deposit(updates.message)
+    print(datas['tel_id'])
+    bot.send_message(chat_id=datas['tel_id'], text=datas['info']+datas['data'][0]+datas['data'][1]+datas['data'][2])
 
 doposit_handler = CommandHandler('depositB', doposit)
 dispatcher.add_handler(doposit_handler)
@@ -314,7 +316,7 @@ dispatcher.add_handler(delB_handler)
 
 #未知命令反馈
 def unknown(bot, updates):
-     bot.send_message(chat_id=updates.message.chat_id, text="奶爸没看懂")
+     bot.send_message(chat_id=updates.message.chat_id, text="欢迎使用超级奶爸机器人早餐服务~")
 
 unknown_handler = MessageHandler(Filters.command, unknown)
 dispatcher.add_handler(unknown_handler)

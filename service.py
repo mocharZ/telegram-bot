@@ -222,15 +222,27 @@ def deposit(message):
         data_1=(int(order_info[1]),dt,int(order_info[0]))
         dao.update(sql_1,data_1)
 
-        # #充值后温馨提示
-        # strs = '管理员给您充值： '+order_info[1]+'p'+'\n下面是给您充值后余额数据：\n\n'
+        #充值后温馨提示
+        strs = '管理员给您充值： '+order_info[1]+'p'+'\n下面是给您充值后余额数据：\n\n'
         
-        # #余额数据
-        # args = getBalance(message)
+        #获取用户数据
+        sql_2 = "select * from telegram_user where id = %d"
+        data_2 = (int(order_info[0]))
+        rows = dao.select(sql_2,data_2)
+        args = []
+        if rows['count'] == 1 :
+            
+            print('这个用户tel_id 为：'+str(rows['rows'][0][4]))
+            #余额数据
+            for row in rows['rows']:  
+                print("id:",str(row[0]),'userName',str(row[1]),'balance',str(row[3]))  
+                args.append("大神："+str(row[2]))
+                args.append('\n余额：'+str(row[3]))
+                args.append('\n编号：'+str(row[0]))
 
-        # #返回数据结构
-        # datas = {'info':strs,'data':args}
-        # return datas
+            #返回数据结构
+            datas = {'info':strs,'data':args,'tel_id':rows['rows'][0][4]}
+            return datas
     except Exception as e :
         logging.error(e)
         dao.connection.rollback
@@ -308,7 +320,7 @@ def orderCutOff():
         logging.error(e)
     finally:
         closeConnection()
-#
+#开单
 def orderOpen():
     try:
         sql_1 = "update telegram_filter set state = 1 where filter_name = '%s'"
