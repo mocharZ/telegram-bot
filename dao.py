@@ -7,7 +7,7 @@ from telegram import Message
 connection = pymysql.connect(host='localhost',  
                              user='root',  
                              password='asdvhn82',  
-                             db='mysql',  
+                             db='telegram_b_bot',  
                              port=3306,  
                              charset='utf8')#注意是utf8不是utf-8  
 
