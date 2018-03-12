@@ -274,9 +274,9 @@ def calPay(message):
     print(str(info))
     pay = 0
     for compare in info:
-        if compare not in dataList.LIST_OF_MNEU_ORDER_SINGLE.keys():
+        if compare not in dataList.LIST_OF_MENU_YXK.keys():
                 return {'code': 'WRONG_NOT_ALLINCLUE' , 'value': 0}
-        for key ,value in dataList.LIST_OF_MNEU_ORDER_SINGLE.items():
+        for key ,value in dataList.LIST_OF_MENU_YXK.items():
             if compare == key:
                 pay += value
     return {'code': 'SUCCESS' ,'value': pay}
