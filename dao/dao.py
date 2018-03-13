@@ -3,13 +3,9 @@ import  pymysql.cursors
 import logging
 import logging.config
 from telegram import Message
+from corn_data import db_config
 # 连接数据库  
-connection = pymysql.connect(host='localhost',  
-                             user='root',  
-                             password='asdvhn82',  
-                             db='telegram_b_bot',  
-                             port=3306,  
-                             charset='utf8')#注意是utf8不是utf-8  
+connection = db_config.connection
 
 # 获取游标  
 cursor = connection.cursor() 

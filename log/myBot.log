@@ -1,15 +1,5 @@
-Tuesday, 03/13/18 March 2018 12:32:26 - root - ERROR - {'message_id': 2012, 'date': 1520915546, 'chat': {'id': 356974645, 'type': 'private', 'username': 'Joey_Zhang', 'first_name': 'joey', 'last_name': 'Zhang'}, 'text': '/balanceB', 'entities': [{'type': 'bot_command', 'offset': 0, 'length': 9}], 'caption_entities': [], 'photo': [], 'new_chat_members': [], 'new_chat_photo': [], 'delete_chat_photo': False, 'group_chat_created': False, 'supergroup_chat_created': False, 'channel_chat_created': False, 'from': {'id': 356974645, 'first_name': 'joey', 'is_bot': False, 'last_name': 'Zhang', 'username': 'Joey_Zhang', 'language_code': 'zh-CN'}, 'new_chat_member': None}
-Tuesday, 03/13/18 March 2018 12:40:46 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:42:53 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:43:07 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:43:22 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:43:37 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:44:14 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:47:45 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:51:15 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:53:44 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:56:44 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 12:59:44 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 13:01:13 - telegram.vendor.ptb_urllib3.urllib3.connectionpool - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None)) after connection broken by 'ConnectTimeoutError(<telegram.vendor.ptb_urllib3.urllib3.connection.VerifiedHTTPSConnection object at 0x00000246E53DD048>, 'Connection to api.telegram.org timed out. (connect timeout=5.0)')': /bot508830944:AAGdJMj2B8BSJ7tlV0oisa4ty2_9dMI386k/getUpdates
-Tuesday, 03/13/18 March 2018 13:01:26 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
-Tuesday, 03/13/18 March 2018 13:03:44 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Tuesday, 03/13/18 March 2018 15:42:57 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Tuesday, 03/13/18 March 2018 15:43:10 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Tuesday, 03/13/18 March 2018 15:43:25 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Tuesday, 03/13/18 March 2018 15:44:22 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out
+Tuesday, 03/13/18 March 2018 15:45:58 - telegram.ext.updater - ERROR - Error while getting Updates: Timed out

@@ -1,0 +1,6 @@
+__pycache__/
+/log
+corn_data/
+
+bot.py
+db_config.py
