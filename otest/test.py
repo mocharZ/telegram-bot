@@ -104,3 +104,4 @@ def ss():
 # bot.send_photo(chat_id=chat_id, photo=open('img/commonReply.jpg', 'rb'))
 # bot.send_photo(chat_id=356974645, photo='http://ww2.sinaimg.cn/mw1024/7453fb7agw1elnshmn5d7g20dw07pb29.gif')
 
+

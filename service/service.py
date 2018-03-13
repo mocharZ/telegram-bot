@@ -3,7 +3,7 @@ import pymysql.cursors
 import logging
 import logging.config
 from telegram import Message
-import dao
+from dao import dao 
 import time
 import datetime
 import dataList
