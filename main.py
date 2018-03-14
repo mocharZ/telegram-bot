@@ -174,8 +174,9 @@ def main():
     updater =  Updater(token=bot.token)
     try : 
         dispatcher_start(updater)
-    except :
-        logging.info("Unexpected error:get somethingWrong")
+    except Exception as e :
+        logging.error(e)
+        logging.info("Unexpected error:while starting :get somethingWrong")
         dispatcher_start(updater)
 
 if __name__ == '__main__':

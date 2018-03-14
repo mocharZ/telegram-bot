@@ -5,7 +5,7 @@ from restrict import restrict
 from telegram.ext import Updater,MessageHandler, Filters,CommandHandler,InlineQueryHandler,RegexHandler
 
 
-# menu_reg='/orderB 安心油条 茶叶蛋 菜馅包子'
+#menu_reg='/orderB 安心油条 茶叶蛋 菜馅包子'
 menu_reg='/orderB A5 加辣'
 
 #start命令
