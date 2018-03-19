@@ -9,8 +9,8 @@ from telegram.ext import Updater,MessageHandler, Filters,CommandHandler,InlineQu
 
 
 
-#menu_reg='/orderB 安心油条 茶叶蛋 菜馅包子'
-menu_reg='/orderB A5 加辣'
+menu_reg='/orderB 安心油条 茶叶蛋 菜馅包子'
+#menu_reg='/orderB A5 加辣'
 
 #点单命令
 @restrict.RateLimited(1)
