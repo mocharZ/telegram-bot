@@ -10,8 +10,9 @@ from telegram.ext import Updater,MessageHandler, Filters,CommandHandler,InlineQu
 
 
 menu_reg='/orderB 安心油条 茶叶蛋 菜馅包子'
-#menu_reg='/orderB A5 加辣'
-
+# menu_reg='/orderB B5'
+# menu_reg='/orderB B1 A套餐 B套餐'
+# menu_reg='/orderB 猪肉圆葱馅饼 肉三鲜水饺 疙瘩汤'
 #点单命令
 @restrict.RateLimited(1)
 @restrict.cutoffRestricted

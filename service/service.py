@@ -85,7 +85,7 @@ def cancelOrder(message):
     try:
         print('用户取消订单')
         #清除订单数据
-        sql_2 = "delete from telegram_order_list where order_no = '%s'"
+        sql_2 = "delete from telegram_order_list where order_no = '%s' and state = 0"
 
         order_info = handleOrderInfo(message.text)
         if not order_info :
@@ -274,7 +274,10 @@ def calPay(message):
     print(str(info))
     pay = 0
     for compare in info:
-        if compare not in dataList.LIST_OF_MNEU_ORDER_SINGLE.keys():
+        # if compare not in dataList.LIST_OF_MENU_FEIMAO_BREAKFAST.keys():
+        if compare not in dataList. LIST_OF_MNEU_ORDER_SINGLE.keys():
+        # if compare not in dataList.LIST_OF_MENU_JIUJIU_BREAKFAST.keys():
+        # if compare not in dataList.LIST_OF_MENU_MOTHER_DUMPLING_BREAKFAST.keys():
                 return {'code': 'WRONG_NOT_ALLINCLUE' , 'value': 0}
         for key ,value in dataList.LIST_OF_MNEU_ORDER_SINGLE.items():
             if compare == key:

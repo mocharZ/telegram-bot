@@ -22,6 +22,22 @@ git push origin master                                    # 将当前分支push�
 git pull origin master                                    # 获取远程分支master并merge到当前分支
 
 #忽略已提交文件
-git rm --cached -r corn_data
-git commit -m 'ignore private data'
-git push
+    git rm --cached -r corn_data
+    git commit -m 'ignore private data'
+    git push
+
+#话说前一段时间从GitHub上更新提交代码，总是报如下的错误，给我郁闷的。
+
+    Push failed: Failed with error: fatal: unable to access ‘https://github.com/HLQ-Struggle/TextWatchers.git/‘: error setting certificate verify locations
+
+    关键点：error setting certificate verify locations
+
+    大体猜测为：证书地址设置有误。
+
+    大家都知道，使用GitHub一般会有SSL以及Https俩种方式进行验证有效性，而LZ跪求度娘，很无奈的是没有找到相关解决办法，也不知道是不是搜索姿势不对。
+
+    好了，不啰嗦了，下面放出LZ解决办法：
+
+    打开git bash，键入以下命令，从而关闭证书校验。
+
+    git config --system http.sslverify false

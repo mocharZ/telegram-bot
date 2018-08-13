@@ -17,6 +17,9 @@ def cancel(bot,updates):
         if dataCode==6002:
             bot.send_message(chat_id=chat_id, text='取消订单有误，参考格式：/cancelB 1519781265240jo')
             return
+        elif dataCode==666:
+            bot.send_message(chat_id=chat_id, text='只能取消未付钱状态的单')
+            return
         else:
             bot.send_message(chat_id=chat_id, text='奶爸有点忙处理不过来啊~~')
             return
